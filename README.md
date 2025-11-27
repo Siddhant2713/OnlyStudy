@@ -1,3 +1,13 @@
+---
+title: OnlyStudies
+emoji: 🎓
+colorFrom: blue
+colorTo: purple
+sdk: streamlit
+app_file: app.py
+pinned: false
+---
+
 # OnlyStudies 🎓✨
 
 Turn Text into Educational Animations in Minutes.
