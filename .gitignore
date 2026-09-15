@@ -1,41 +1,21 @@
+# Secrets
+.env
+server/.env
+
 # Python
 __pycache__/
 *.py[cod]
-*$py.class
-*.so
-.Python
-env/
-venv/
-ENV/
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
+server/.venv/
 
-# Environment variables
-.env
+# Generated rendering output
+server/runtime/
 
-# Media files (large output files)
-media/
+# Client dependencies and build
+client/node_modules/
+client/dist/
 
-# IDE
+# Editor and OS files
 .vscode/
 .idea/
-*.swp
-*.swo
-*~
-
-# OS
 .DS_Store
 Thumbs.db

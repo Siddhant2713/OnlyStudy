@@ -1,7 +1,0 @@
-streamlit
-manim
-python-dotenv
-google-generativeai
-manim-voiceover[gtts]
-moviepy
-openai

@@ -1,47 +1,36 @@
----
-title: OnlyStudies
-emoji: 🎓
-colorFrom: blue
-colorTo: purple
-sdk: streamlit
-app_file: app.py
-pinned: false
----
+# OnlyStudies
 
-# OnlyStudies 🎓✨
+Generate short, visual educational videos from a topic.
 
-Turn Text into Educational Animations in Minutes.
+## Project layout
 
-OnlyStudies is an AI-powered platform that converts simple text descriptions into high-quality, 3-minute educational videos. It automates the entire animation pipeline—from scriptwriting to rendering—making complex concepts like Quantum Entanglement or Bubble Sort easy to understand through visual storytelling.
+- `client/` — React browser app
+- `server/` — FastAPI API and Manim renderer
+- `specs/` — product specs and learning notes
 
-## 🚀 Key Features
-- **Automated Video Pipeline**: Generates a complete 3-minute lesson without human intervention.
-- **Intelligent Structuring**: Enforces a proven pedagogical format (Theory, Analogy, Example).
-- **Smart Stitching**: Solves the AI "context window" limit by generating 3 separate scenes and stitching them into one seamless MP4.
-- **Sleek UX**: A dark-mode, responsive interface with real-time terminal logs and Lottie loading animations.
+## Start locally
 
-## 🛠️ Tech Stack
-- **Frontend**: Streamlit (Python)
-- **AI Logic**: Google Gemini 1.5 Pro (via google-generativeai)
-- **Animation Engine**: Manim Community Edition
-- **Video Processing**: FFmpeg & MoviePy
+Open two terminals from the project root. Do not move or copy a `.venv` directory: its executables contain absolute paths. Create it in `server/` instead.
 
-## ⚙️ Installation & Setup
+**Terminal 1 — server**
 
-### Prerequisites
-- Python 3.10 or higher
-- FFmpeg installed and added to your system PATH.
-- LaTeX (Optional but recommended for math formulas).
+```bash
+cd server
+python3 -m venv .venv
+. .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+uvicorn app.main:app --reload
+```
 
-### Steps
-1. Clone the Repository
-2. Install Dependencies
-   ```bash
-   pip install -r requirements.txt
-   ```
-3. Set Up API Keys
-   Create a `.env` file based on `.env.example` and add your `GOOGLE_API_KEY`.
-4. Run the App
-   ```bash
-   streamlit run app.py
-   ```
+Create `server/.env` from `server/.env.example` and set `GOOGLE_API_KEY` before generating a lesson. Confirm the server is ready at `http://localhost:8000/api/health`.
+
+**Terminal 2 — client**
+
+```bash
+cd client
+npm install
+npm run dev
+```
+
+Wait for `npm install` to complete successfully before running Vite. Open the URL Vite prints, normally `http://localhost:5173`.
