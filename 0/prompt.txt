@@ -1,0 +1,10 @@
+implement specs/spec03.md
+
+---
+
+INFO:     127.0.0.1:53832 - "POST /api/lessons HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:53832 - "GET /api/lessons/4a260f0966754e9994a36e31c507be59 HTTP/1.1" 200 OK
+
+---
+
+the status codes are looking fine, but why my frontend is not able to send the req, saying the client has been closed. at what point our client is connecting the the server. inspect that maybe we are facing this issue coz of old endpoints and rn we have updated them. look into it and write your learning inside the specs/spec03.learning.md
