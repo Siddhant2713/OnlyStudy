@@ -25,6 +25,8 @@ uvicorn app.main:app --reload
 
 Create `server/.env` from `server/.env.example` and set `GOOGLE_API_KEY` before generating a lesson. Confirm the server is ready at `http://localhost:8000/api/health`.
 
+The default Gemini model is `gemini-2.5-flash`. If your API project does not have access to it, set `GEMINI_MODEL` in `server/.env` to an available text model. Failed render jobs retain their generated scene, so they can be corrected through the feedback box.
+
 **Terminal 2 — client**
 
 ```bash
