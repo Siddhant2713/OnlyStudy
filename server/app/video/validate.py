@@ -1,5 +1,6 @@
 import ast
 from .schema import LessonPlan, Screenplay, Storyboard
+from .capabilities import capability_catalog
 ALLOWED_IMPORTS = {"manim", "app.video.runtime"}
 DANGEROUS = {"eval", "exec", "compile", "__import__", "open", "input", "getattr", "setattr", "delattr"}
 
@@ -40,6 +41,8 @@ def validate_storyboard(board: Storyboard, screenplay: Screenplay):
     for obj in board.objects:
         if obj.parent_id and obj.parent_id not in object_ids: raise ValueError(f"unknown parent {obj.parent_id}")
         if any(r.target_id not in object_ids for r in obj.relations): raise ValueError(f"dangling relation on {obj.id}")
+    capabilities = set(capability_catalog()["actions"])
+    primitive_actions = {"create", "show", "hide", "fade", "move", "rotate", "scale", "morph", "transform", "highlight", "trace", "show_vector", "show_force", "show_measurement", "show_equation", "derive_equation_step", "camera_focus", "camera_zoom", "camera_follow", "pause"}
     for scene in board.scenes:
         if not set(scene.narration_block_ids) <= block_ids: raise ValueError(f"unknown narration in {scene.id}")
         if not set(scene.active_objects) <= object_ids: raise ValueError(f"unknown active object in {scene.id}")
@@ -48,9 +51,33 @@ def validate_storyboard(board: Storyboard, screenplay: Screenplay):
             if action.duration < 0: raise ValueError("negative action duration")
             for target in (action.object_id, action.source_object_id, action.target_object_id):
                 if target and target not in object_ids: raise ValueError(f"unknown action object {target}")
+            if action.type not in capabilities | primitive_actions: raise ValueError(f"unsupported semantic action {action.type}")
         for equation in scene.equations:
             if equation.motivated_by_object_id not in object_ids: raise ValueError(f"equation {equation.id} has no visual reference")
     return board
+
+def teaching_quality_report(plan: LessonPlan, screenplay: Screenplay, board: Storyboard) -> dict:
+    """Non-blocking structural checks that make lesson quality debuggable."""
+    warnings: list[str] = []
+    blocks = {block.id: block for block in screenplay.narration_blocks}
+    meaningful = {"show_interaction", "show_force_pair", "show_motion_trace", "attach_quantity", "compare_states", "derive_equation", "transform_representation", "connect_objects", "show_before_after", "show_force", "show_equation"}
+    covered = {blocks[block_id].concept_step_id for scene in board.scenes for block_id in scene.narration_block_ids if block_id in blocks and any(action.type in meaningful for action in scene.actions)}
+    missing = [step.id for step in plan.conceptual_chain if step.importance == "core" and step.id not in covered]
+    if missing: warnings.append(f"core concepts without a meaningful visual action: {', '.join(missing)}")
+    prior_active: set[str] = set()
+    camera_types = set()
+    for scene in board.scenes:
+        camera_types.add(scene.camera.type)
+        if len(scene.active_objects) > 8 or len(scene.actions) > 10: warnings.append(f"{scene.id}: high visual density")
+        if scene.duration_seconds and scene.duration_seconds > 0 and not scene.actions: warnings.append(f"{scene.id}: idle scene has no visual purpose")
+        if prior_active and scene.active_objects and not prior_active & set(scene.active_objects) and scene.transition_to_next == "fade": warnings.append(f"{scene.id}: no persistent object bridges the scene transition")
+        creates = [action.type for action in scene.actions]
+        if len(creates) >= 3 and creates[:3] == ["create", "create", "create"]: warnings.append(f"{scene.id}: repeated create actions have no semantic progression")
+        for equation in scene.equations:
+            if not equation.motivated_by_object_id and not equation.previous_equation_id: warnings.append(f"{scene.id}: equation {equation.id} is not linked")
+        prior_active = set(scene.active_objects)
+    if len(board.scenes) > 1 and camera_types == {"none"}: warnings.append("lesson has no camera intent")
+    return {"status": "ok" if not warnings else "warnings", "warnings": warnings, "metrics": {"scenes": len(board.scenes), "objects": len(board.objects), "semantic_actions": sum(action.type in meaningful for scene in board.scenes for action in scene.actions)}}
 def validate_scene_code(code: str) -> str:
     tree = ast.parse(code, filename="scene.py")
     classes = [n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "SceneTopic"]

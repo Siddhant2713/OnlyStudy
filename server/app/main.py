@@ -83,7 +83,7 @@ def response(job_id):
     job = JOBS.get(job_id)
     if not job: raise HTTPException(404, "Lesson not found")
     state = job["state"]; stage = state.stage
-    artifact_paths = {"lesson_plan": "plan", "screenplay": "screenplay", "storyboard": "storyboard", "storyboard_draft": "artifacts/storyboard_draft"}
+    artifact_paths = {"lesson_plan": "plan", "screenplay": "screenplay", "storyboard": "storyboard", "timeline": "artifacts/timeline", "quality_report": "artifacts/quality_report", "storyboard_draft": "artifacts/storyboard_draft"}
     video = job.get("video"); metadata = validate_video(video) if job["status"] == "completed" and video else None
     return {"id": job_id, "status": state.status, "stage": stage, "message": state.message, "progress": state.progress, "heartbeat_at": state.heartbeat_at, "updated_at": state.updated_at, "topic": job["request"].topic, "error": job.get("error"), "stages": {key: value.model_dump() for key, value in state.stages.items()}, "artifacts": {name: f"/api/lessons/{job_id}/{endpoint}" for name, endpoint in artifact_paths.items() if (job["directory"] / f"{name}.json").exists()}, "video": {"available": bool(metadata), "url": f"/api/lessons/{job_id}/video" if metadata else None, "size_bytes": metadata.size_bytes if metadata else None}, "video_url": f"/api/lessons/{job_id}/video" if metadata else None}
 def set_stage(job_id, stage):

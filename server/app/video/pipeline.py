@@ -4,9 +4,10 @@ from pathlib import Path
 from app.llm.provider import LLMProvider
 from app.video.artifacts import ArtifactStore
 from app.video.schema import LessonPlan, NarrationBlock, Screenplay, Storyboard
-from app.video.validate import validate_plan, validate_screenplay, validate_storyboard, validate_scene_code
+from app.video.validate import teaching_quality_report, validate_plan, validate_screenplay, validate_storyboard, validate_scene_code
 from app.voice.gtts_provider import GTTSProvider
-from app.voice.timing import normalize_storyboard_timing
+from app.video.capabilities import capability_catalog
+from app.video.timeline import compile_timeline
 
 TEACHING = "You create precise educational explainers. Teach one causal idea at a time, preserve physical and mathematical truth, and return only the requested data."
 
@@ -70,8 +71,8 @@ class VideoPipeline:
         return screenplay
     def storyboard(self, plan, screenplay, feedback=None):
         self.set_stage("storyboarding")
-        context = {"lesson_plan": plan.model_dump(), "screenplay": screenplay.model_dump(), "primitive_catalog": ["circle", "rectangle", "wheel", "bicycle", "arrow", "text", "equation", "vector"], "feedback": feedback}
-        task = "Create a declarative visual storyboard. Reuse stable object IDs across scenes, map every narration block, attach forces/measurements, and use camera intent. Every action, camera, relation, and equation reference must name an ID declared in objects. Do not use raw Manim calls or arbitrary Python."
+        context = {"lesson_plan": plan.model_dump(), "screenplay": screenplay.model_dump(), "runtime_capabilities": capability_catalog(), "feedback": feedback}
+        task = "Create a declarative semantic storyboard. Prefer supported semantic actions over primitive create/move actions. Reuse persistent object IDs, show relations before labels, attach forces/measurements to their parent, make equations follow a reason and connect them to visuals, and use camera intent for conceptual focus. Every action, camera, relation, and equation reference must name an ID declared in objects. Do not use raw Manim calls or arbitrary Python."
         for attempt in range(2):
             board = self.structured(Storyboard, task, context)
             try:
@@ -88,7 +89,9 @@ class VideoPipeline:
         self.set_stage("criticizing")
         # Deterministic critic catches all reference and coverage failures before codegen.
         validate_plan(plan); validate_screenplay(screenplay, plan); validate_storyboard(board, screenplay)
-        result = {"status": "ok", "checks": ["plan", "screenplay", "storyboard", "references"]}; self.store.write_json("validation", result); return result
+        report = teaching_quality_report(plan, screenplay, board)
+        result = {"status": "ok", "checks": ["plan", "screenplay", "storyboard", "references"], "quality_status": report["status"]}
+        self.store.write_json("validation", result); self.store.write_json("quality_report", report); return result
     def voice(self, screenplay, board):
         if not self.request.use_voiceover: return board, {}
         self.set_stage("voicing")
@@ -96,8 +99,8 @@ class VideoPipeline:
         for block in screenplay.narration_blocks:
             result = provider.synthesize(block.text, preset=self.request.voice_preset, output_path=self.store.directory / "voice" / f"{block.id}.mp3")
             durations[block.id] = result.duration_seconds
-        board = normalize_storyboard_timing(board, screenplay, durations)
-        self.store.write_json("voice_timing", durations); self.store.write_json("storyboard", board); return board, durations
+        timeline = compile_timeline(board, screenplay, durations)
+        self.store.write_json("voice_timing", durations); self.store.write_json("timeline", timeline); self.store.write_json("storyboard", board); return board, durations
     def code(self, board):
         self.set_stage("codegen")
         prompt = "Return only this thin approved orchestration pattern, adapted only if necessary: from app.video.runtime import LessonScene, load_storyboard; class SceneTopic(LessonScene): construct calls self.run_storyboard(load_storyboard('storyboard.json')). Never add imports, helpers, file/network/subprocess calls, or arbitrary geometry."
