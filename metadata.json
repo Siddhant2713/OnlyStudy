@@ -1,0 +1,53 @@
+{
+  "cli_version": "0.10.6",
+  "checkpoint_id": "01M2METEKJQ16V0C60BP1EJSJA",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 2,
+  "files_touched": [
+    "client/src/App.tsx",
+    "client/src/styles.css",
+    "server/app/llm/__init__.py",
+    "server/app/llm/gemini.py",
+    "server/app/llm/provider.py",
+    "server/app/main.py",
+    "server/app/video/__init__.py",
+    "server/app/video/artifacts.py",
+    "server/app/video/physics.py",
+    "server/app/video/pipeline.py",
+    "server/app/video/runtime/__init__.py",
+    "server/app/video/runtime/actions.py",
+    "server/app/video/runtime/camera.py",
+    "server/app/video/runtime/equations.py",
+    "server/app/video/runtime/objects.py",
+    "server/app/video/runtime/style.py",
+    "server/app/video/runtime/timing.py",
+    "server/app/video/runtime/world.py",
+    "server/app/video/schema.py",
+    "server/app/video/validate.py",
+    "server/app/voice/__init__.py",
+    "server/app/voice/gtts_provider.py",
+    "server/app/voice/provider.py",
+    "server/app/voice/timing.py",
+    "server/fixtures/bicycle_pipeline.json",
+    "server/requirements.txt",
+    "server/tests/test_pipeline.py",
+    "specs/spec04.learning.md"
+  ],
+  "sessions": [
+    {
+      "metadata": "/0/metadata.json",
+      "transcript": "/0/full.jsonl",
+      "compact_transcript": "/0/transcript.jsonl",
+      "content_hash": "/0/content_hash.txt",
+      "prompt": "/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 70611,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 3432448,
+    "output_tokens": 25326,
+    "api_call_count": 36
+  }
+}

@@ -1,0 +1,5 @@
+implement specs/spec04.video-generation-pipeline.md and write your learning inside a spec04.learning.md
+
+---
+
+specs/spec05.md fix these errors
