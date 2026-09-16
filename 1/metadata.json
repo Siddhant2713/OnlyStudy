@@ -1,0 +1,110 @@
+{
+  "cli_version": "0.10.6",
+  "checkpoint_id": "01M2METEKJQ16V0C60BP1EJSJA",
+  "session_id": "01a0a8c0-0bc2-74d3-a692-c660214b988a",
+  "strategy": "manual-commit",
+  "created_at": "2026-09-16T06:35:18.732816922Z",
+  "branch": "main",
+  "checkpoints_count": 3,
+  "save_step_count": 3,
+  "files_touched": [
+    "client/src/App.tsx",
+    "client/src/styles.css",
+    "learningsREADME.md",
+    "server/app/main.py",
+    "server/requirements.txt",
+    "specs/spec06.learning.md"
+  ],
+  "agent": "Codex",
+  "model": "gpt-5.6-terra",
+  "turn_id": "a16365f4c005",
+  "compact_transcript_start": 0,
+  "token_usage": {
+    "input_tokens": 88518,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 1701888,
+    "output_tokens": 16981,
+    "api_call_count": 32
+  },
+  "session_metrics": {
+    "turn_count": 3
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-09-16T06:35:18.697082951Z",
+    "agent_lines": 0,
+    "agent_removed": 0,
+    "human_added": 0,
+    "human_modified": 133,
+    "human_removed": 16,
+    "total_committed": 80,
+    "total_lines_changed": 149,
+    "agent_percentage": 0,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 693,
+      "user_lines_removed": 144,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        "client/src/App.tsx": 11,
+        "client/src/styles.css": 1,
+        "server/app/llm/gemini.py": 33,
+        "server/app/llm/provider.py": 5,
+        "server/app/main.py": 77,
+        "server/app/video/artifacts.py": 14,
+        "server/app/video/physics.py": 5,
+        "server/app/video/pipeline.py": 88,
+        "server/app/video/runtime/__init__.py": 36,
+        "server/app/video/schema.py": 118,
+        "server/app/video/validate.py": 65,
+        "server/app/voice/gtts_provider.py": 10,
+        "server/app/voice/provider.py": 6,
+        "server/app/voice/timing.py": 7,
+        "server/fixtures/bicycle_pipeline.json": 1,
+        "server/requirements.txt": 2,
+        "server/tests/test_pipeline.py": 45,
+        "specs/spec04.learning.md": 22,
+        "specs/spec05.md": 75,
+        "specs/spec06.md": 72
+      },
+      "user_removed_per_file": {
+        "client/src/App.tsx": 17,
+        "server/app/main.py": 127
+      }
+    },
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 50,
+      "user_lines_removed": 1,
+      "agent_lines_added": 757,
+      "agent_lines_removed": 139,
+      "user_added_per_file": {
+        "specs/spec06.md": 50
+      },
+      "user_removed_per_file": {
+        "specs/spec06.md": 1
+      }
+    },
+    {
+      "checkpoint_number": 3,
+      "user_lines_added": 77,
+      "user_lines_removed": 4,
+      "agent_lines_added": 789,
+      "agent_lines_removed": 139,
+      "user_added_per_file": {
+        "server/app/video/artifacts.py": 1,
+        "server/app/video/pipeline.py": 14,
+        "server/tests/test_pipeline.py": 12,
+        "specs/spec06.md": 50
+      },
+      "user_removed_per_file": {
+        "server/app/video/artifacts.py": 1,
+        "server/app/video/pipeline.py": 2,
+        "specs/spec06.md": 1
+      }
+    }
+  ]
+}

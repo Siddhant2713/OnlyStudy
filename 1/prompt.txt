@@ -1,0 +1,9 @@
+Yeah we were implementing specs/spec06.md , and the internet went down, check the status from entire and the logs and resume the coding
+
+---
+
+updated specs/spec06.md their are few issues. write the learninigs inside spec06.learning.md
+
+---
+
+screenwriting failed: screenwriting failed after one targeted repair: core concepts have no narration: C1

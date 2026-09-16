@@ -3,10 +3,11 @@
   "checkpoint_id": "01M2METEKJQ16V0C60BP1EJSJA",
   "strategy": "manual-commit",
   "branch": "main",
-  "checkpoints_count": 2,
+  "checkpoints_count": 5,
   "files_touched": [
     "client/src/App.tsx",
     "client/src/styles.css",
+    "learningsREADME.md",
     "server/app/llm/__init__.py",
     "server/app/llm/gemini.py",
     "server/app/llm/provider.py",
@@ -32,7 +33,8 @@
     "server/fixtures/bicycle_pipeline.json",
     "server/requirements.txt",
     "server/tests/test_pipeline.py",
-    "specs/spec04.learning.md"
+    "specs/spec04.learning.md",
+    "specs/spec06.learning.md"
   ],
   "sessions": [
     {
@@ -41,13 +43,20 @@
       "compact_transcript": "/0/transcript.jsonl",
       "content_hash": "/0/content_hash.txt",
       "prompt": "/0/prompt.txt"
+    },
+    {
+      "metadata": "/1/metadata.json",
+      "transcript": "/1/full.jsonl",
+      "compact_transcript": "/1/transcript.jsonl",
+      "content_hash": "/1/content_hash.txt",
+      "prompt": "/1/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 70611,
+    "input_tokens": 159129,
     "cache_creation_tokens": 0,
-    "cache_read_tokens": 3432448,
-    "output_tokens": 25326,
-    "api_call_count": 36
+    "cache_read_tokens": 5134336,
+    "output_tokens": 42307,
+    "api_call_count": 68
   }
 }
