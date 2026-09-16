@@ -1,0 +1,44 @@
+{
+  "cli_version": "0.10.6",
+  "checkpoint_id": "01M2MKE281VT129AR8QVYH3FEV",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "server/app/main.py",
+    "server/app/video/artifacts.py",
+    "server/app/video/capabilities.py",
+    "server/app/video/pipeline.py",
+    "server/app/video/runtime/__init__.py",
+    "server/app/video/runtime/capabilities.py",
+    "server/app/video/runtime/equations.py",
+    "server/app/video/runtime/state.py",
+    "server/app/video/runtime/timeline.py",
+    "server/app/video/schema.py",
+    "server/app/video/timeline.py",
+    "server/app/video/validate.py",
+    "server/tests/video_quality/fixtures/bicycle.json",
+    "server/tests/video_quality/fixtures/function.json",
+    "server/tests/video_quality/fixtures/linked_list.json",
+    "server/tests/video_quality/fixtures/newton.json",
+    "server/tests/video_quality/test_quality.py",
+    "server/tests/video_quality/visual_regression.py",
+    "specs/spec08.learning.md"
+  ],
+  "sessions": [
+    {
+      "metadata": "/0/metadata.json",
+      "transcript": "/0/full.jsonl",
+      "compact_transcript": "/0/transcript.jsonl",
+      "content_hash": "/0/content_hash.txt",
+      "prompt": "/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 96629,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 1232128,
+    "output_tokens": 20329,
+    "api_call_count": 31
+  }
+}

@@ -1,0 +1,1 @@
+pull the previous context through entire, and implement specs/spec08.video-quality-evolution.md and write your learnings inside spec08.learning.md
